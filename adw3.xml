@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<Schema name="adw3">
+<Cube name="Sales" defaultMeasure="Subtotal">
+<Table name="fact_subtotal"/>
+
+    
+  <Dimension name="Produk" foreignKey ="ProductID">
+      <Hierarchy hasAll="true" allMemberName="All Produks" primaryKey ="ProductID">
+      <Table name="product"/>
+      <Level name="Produk" column="namaProduk"/>
+     <!-- <Level name="Harga" column="listPrice"/>
+      <Level name="Biaya" column="standartCost"/>-->
+      </Hierarchy>
+  </Dimension>
+ 
+  <Dimension name="Time" foreignKey="dateID">
+    <Hierarchy hasAll="true" allMemberName="All Times" primaryKey="dateID">
+      <Table name="dim_date" />
+      <Level name="Year" column="tahun" type="Numeric" uniqueMembers="true"
+          levelType="TimeYears"/>
+      <Level name="Month" column="bulan" uniqueMembers="false" type="Numeric"
+          levelType="TimeMonths"/>
+      <Level name="Date" column="tanggal" uniqueMembers="false" type="Numeric"
+          levelType="TimeDays"/>
+    </Hierarchy>
+   
+  </Dimension>
+<Dimension name="Customer" foreignKey="customerID">
+   
+    <Hierarchy  hasAll  ="true" allMemberName="All Customers" primaryKey  = "customerID">
+        <Table name="customer"/>
+        <Level name="Customer" column="customerName"/>
+    </Hierarchy>
+  </Dimension>
+   
+  <Measure name="Subtotal" column="subtotal" aggregator="sum"
+      formatString="Standard"/>
+ 
+   
+  <Measure name="Sales Count" column="ProductID" aggregator="count"
+      formatString="#,###"/>
+  <Measure name="Customer Count" column="customerID"
+      aggregator="distinct-count" formatString="#,###"/>
+
+</Cube>
+</Schema>

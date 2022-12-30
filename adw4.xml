@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Schema name="adw4">
+<Cube name="Order" defaultMeasure="OrderQty">
+<Table name="fact_purchase"/>
+
+    <Dimension name="Time" foreignKey="dateID">
+    <Hierarchy hasAll="true" allMemberName="All Times" primaryKey="dateID">
+      <Table name="dim_date" />
+      <Level name="Year" column="tahun" type="Numeric" uniqueMembers="true"
+          levelType="TimeYears"/>
+      <Level name="Month" column="bulan" uniqueMembers="false" type="Numeric"
+          levelType="TimeMonths"/>
+      <Level name="Date" column="tanggal" uniqueMembers="false" type="Numeric"
+          levelType="TimeDays"/>
+    </Hierarchy>
+  </Dimension>
+ 
+  <Dimension name="Produk" foreignKey ="ProductID">
+      <Hierarchy hasAll="true" allMemberName="All Produks" primaryKey ="ProductID">
+      <Table name="product"/>
+      <Level name="Produk" column="namaProduk"/>      
+      </Hierarchy>
+  </Dimension>
+ 
+  <Dimension name="Vendor" foreignKey = "vendorID">
+    <Hierarchy hasAll="true" allMemberName="All Vendors" primaryKey ="vendorID">
+      <Table name="vendor" />
+      <Level name="Vendor" column="namaVendor"/>
+    </Hierarchy>
+  </Dimension>
+ 
+  <Dimension name="Ship" foreignKey="shipMethodID">
+    <Hierarchy  hasAll  ="true" allMemberName="All Ships" primaryKey  = "shipMethodID">
+        <Table name="shipmethod"/>
+        <Level name="Shipmethod" column="nameShip"/>
+    </Hierarchy>
+  </Dimension>    
+   
+  <Measure name="OrderQty" column="orderQty" aggregator="sum"
+      formatString="Standard"/>
+
+</Cube>
+</Schema>
